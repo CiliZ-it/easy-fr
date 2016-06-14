@@ -2,6 +2,9 @@
     this.renderable = document.createElement("canvas");
     this.renderableContext = this.renderable.getContext("2d");
     this.asset = params.asset;
+    this.x = 0;
+    this.y = 0;
+    this.opacity = 0;
 
     if (this.asset) {
         this.asset.onReady(function () {
