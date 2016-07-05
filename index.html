@@ -5,18 +5,65 @@
     <script src="/js/asset.js"></script>
     <script src="/js/resource.js"></script>
     <script src="/js/layer.js"></script>
+    <script src="/js/rnode.js"></script>
 </head>
 <body>
     <script>
-        test = new Resource({
+        ship = new rNode();
+
+        corp = new Resource({
             asset: new Asset({
-                src: "/assets/arduino.jpg"
-            })
+                src: "/assets/ship.png"
+            }),
+            width: 100,
+            height: 100
         });
+
+        ship.add(corp);
+
+
 
         layer = new Layer();
         layer.show();
-        layer.add(test);
+
+
+
+        ship.onInit = function () {
+
+        };
+
+        layer.startRender();
+
+
+        layer.add(ship);
+
+        ship.x = 400;
+        ship.y = 300;
+
+        corp.anchor.x = 0.5;
+        corp.anchor.y = 0.5;
+
+        var mX, mY;
+
+        layer.layer.addEventListener("mousemove", function (e) {
+            mX = e.layerX;
+            mY = e.layerY;
+
+            var a = (Math.atan2(ship.x - mX, ship.y - mY) / Math.PI * 180);
+            if (a < 0) a += 360;
+            ship.angle = 360 - a;
+
+        });
+
+        var move;
+
+        layer.layer.addEventListener("mousedown", function (e) {
+            
+        });
+
+        layer.layer.addEventListener("mouseup", function (e) {
+            
+        });
 
     </script>
 </body>

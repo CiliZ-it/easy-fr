@@ -4,9 +4,30 @@
     this.layer = document.createElement("canvas");
     this.layerContext = this.layer.getContext("2d");
     this.objects = [];
+    
+    Object.defineProperties(this, {
+        width: {
+            set: function (val) {
+                this.layer.width = val;
+            },
+            get: function () {
+                return this.layer.width;
+            }
+        },
+        height: {
+            set: function (val) {
+                this.layer.height = val;
+            },
+            get: function () {
+                return this.layer.height;
+            }
+        }
+    })
 
-    this.width = this.layer.width = params.width || 800;
-    this.height = this.layer.height = params.height || 600;
+    this.width = params.width || 800;
+    this.height = params.height || 600;
+
+
 
     this.autoRender = false;
 };
@@ -28,20 +49,25 @@ Layer.prototype.clear = function () {
 }
 
 Layer.prototype.render = function () {
-
     this.clear();
+    var dt = Date.now() - this.time;
     for (var e = 0, ln = this.objects.length; e < ln; e++) {
-        this.layerContext.drawImage(this.objects[e].renderable, this.objects[e].x, this.objects[e].y);
+
+        this.objects[e].render(this.layerContext);
+
     };
 
     if (this.autoRender) {
+
         window.requestAnimationFrame(this.render.bind(this));
+
     }
 
 };
 
 Layer.prototype.startRender = function () {
     this.autoRender = true;
+    this.time = Date.now();
     this.render();
 }
 
