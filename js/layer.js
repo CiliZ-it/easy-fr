@@ -28,8 +28,48 @@
     this.height = params.height || 600;
 
 
+    
+    var x, y, z;
+    Object.defineProperties(this, {
+        x: {
+            set: function (value) {
+                x = value;
+                this.layer.style.left = value + "px";
+            },
+            get: function () {
+                return x;
+            }
+        },
+        y: {
+            set: function (value) {
+                y = value;
+                this.layer.style.top = value + "px";
+            },
+            get: function () {
+                return y;
+            }
+        },
+        z: {
+            set: function (value) {
+                z = value;
+                this.layer.style.zIndex = value + "px";
+            },
+            get: function () {
+                return z;
+            }
+        }
+    });
+    this.layer.style.position = "absolute";
+    
+
+    this.x = params.x || 0;
+    this.y = params.y || 0;
+    this.z = params.z || 0;
+    this.width = this.layer.width = params.width || 800;
+    this.height = this.layer.height = params.height || 600;
 
     this.autoRender = false;
+
 };
 
 Layer.prototype.add = function (resource) {
@@ -38,14 +78,17 @@ Layer.prototype.add = function (resource) {
 
 Layer.prototype.show = function () {
     document.body.appendChild(this.layer);
+    return this;
 };
 
 Layer.prototype.hide = function () {
     document.body.removeChild(this.layer);
+    return this;
 };
 
 Layer.prototype.clear = function () {
     this.layerContext.clearRect(0, 0, this.width, this.height);
+    return this;
 }
 
 Layer.prototype.render = function () {
@@ -63,16 +106,19 @@ Layer.prototype.render = function () {
 
     }
 
+    return this;
 };
 
 Layer.prototype.startRender = function () {
     this.autoRender = true;
     this.time = Date.now();
     this.render();
+    return this;
 }
 
 
 Layer.prototype.stopRender = function () {
     this.autoRender = false;
     this.render();
+    return this;
 }

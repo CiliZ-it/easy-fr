@@ -6,14 +6,14 @@
     this.y = 0;
     this.opacity = 0;
     this.anchor = { x: 0, y: 0 };
-
+    this.layer = false;
+    this.ready = false;
     console.log(params)
     if (this.asset && !this.asset.ready) {
         this.asset.onReady(function () {
             this.init(this.asset, params.width, params.height);
         }.bind(this));
     };
-
     if (this.asset.ready) {
         this.init(this.asset, params.width, params.height);
     }
@@ -39,6 +39,7 @@ Resource.prototype.init = function (asset, width, height) {
     this.height = this.renderable.height = (height || asset.height);
     this.renderableContext.drawImage(asset.asset, 0, 0, this.width, this.height);
     this.onInit && this.onInit();
+    this.ready = true;
 };
 
 Resource.prototype.clone = function () {
